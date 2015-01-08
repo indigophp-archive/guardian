@@ -3,7 +3,6 @@
 namespace spec\Indigo\Guardian\Verifier;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class PasswordSpec extends ObjectBehavior
 {
