@@ -3,6 +3,8 @@
 namespace spec\Indigo\Guardian\Authenticator;
 
 use Indigo\Guardian\Verifier;
+use Indigo\Guardian\Caller\User;
+use BeatSwitch\Lock\Callers\Caller;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -10,9 +12,7 @@ class SimpleSpec extends ObjectBehavior
 {
     function let(Verifier $verifier)
     {
-        $this->beConstructedWith([
-            'username' => 'password'
-        ], $verifier);
+        $this->beConstructedWith($verifier);
     }
 
     function it_is_initializable()
@@ -25,21 +25,21 @@ class SimpleSpec extends ObjectBehavior
         $this->shouldImplement('Indigo\Guardian\Authenticator');
     }
 
-    function it_authenticates_a_subject(Verifier $verifier)
+    function it_authenticates_a_subject_against_a_caller(User $user, Verifier $verifier)
     {
+        $user->getPassword()->willReturn('password');
         $verifier->verify('password', 'password')->willReturn(true);
 
-        $this->authenticate([
-            'username' => 'username',
-            'password' => 'password',
-        ])->shouldReturn(true);
+        $this->authenticate(['password' => 'password'], $user)->shouldReturn(true);
     }
 
-    function it_throws_an_exception_when_user_not_found()
+    function it_throws_an_exception_when_password_not_passed(User $user)
     {
-        $this->shouldThrow('Indigo\Guardian\Exception\UserNotFound')->duringAuthenticate([
-            'username' => 'fake',
-            'password' => 'password',
-        ]);
+        $this->shouldThrow('InvalidArgumentException')->duringAuthenticate([], $user);
+    }
+
+    function it_throws_an_exception_when_caller_is_not_a_user(Caller $caller)
+    {
+        $this->shouldThrow('InvalidArgumentException')->duringAuthenticate(['password' => 'password'], $caller);
     }
 }
