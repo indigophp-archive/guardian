@@ -7,6 +7,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/indigophp/guardian.svg?style=flat-square)](https://scrutinizer-ci.com/g/indigophp/guardian)
 [![HHVM Status](https://img.shields.io/hhvm/indigophp/guardian.svg?style=flat-square)](http://hhvm.h4cc.de/package/indigophp/guardian)
 [![Total Downloads](https://img.shields.io/packagist/dt/indigophp/guardian.svg?style=flat-square)](https://packagist.org/packages/indigophp/guardian)
+[![Dependency Status](https://img.shields.io/versioneye/d/php/indigophp:guardian.svg?style=flat-square)](https://www.versioneye.com/php/indigophp:guardian)
 
 **Simple and flexible authentication framework.**
 
