@@ -29,7 +29,7 @@ class GuardianSpec extends ObjectBehavior
         $this->getIdentifier()->shouldHaveType('Indigo\Guardian\Identifier');
     }
 
-    function it_identifies_and_authenticates_a_subject(Authenticator $authenticator, Identifier $identifier, Caller $caller)
+    function it_identifies_and_authenticates_a_caller(Authenticator $authenticator, Identifier $identifier, Caller $caller)
     {
         $subject = [
             'username' => 'john_doe',
@@ -40,5 +40,23 @@ class GuardianSpec extends ObjectBehavior
         $authenticator->authenticate($subject, $caller)->willReturn(true);
 
         $this->authenticate($subject)->shouldReturn(true);
+    }
+
+    function it_logs_a_caller_in(Authenticator $authenticator, Identifier $identifier, Caller $caller)
+    {
+        $subject = [
+            'username' => 'john_doe',
+            'password' => 'hashed_password',
+        ];
+
+        $identifier->identify($subject)->willReturn($caller);
+        $authenticator->authenticate($subject, $caller)->willReturn(true);
+
+        $this->isLoggedIn()->shouldReturn(false);
+
+        $this->login($subject)->shouldReturn($caller);
+
+        $this->isLoggedIn()->shouldReturn(true);
+        $this->getCurrentCaller()->shouldReturn($caller);
     }
 }

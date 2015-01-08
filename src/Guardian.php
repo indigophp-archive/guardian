@@ -11,6 +11,8 @@
 
 namespace Indigo\Guardian;
 
+use BeatSwitch\Lock\Callers\Caller;
+
 /**
  * Main entry point
  *
@@ -29,6 +31,11 @@ class Guardian
     protected $identifier;
 
     /**
+     * @var Caller
+     */
+    protected $currentCaller;
+
+    /**
      * @param Authenticator $authenticator
      * @param Identifier    $identifier
      */
@@ -37,7 +44,6 @@ class Guardian
         $this->authenticator = $authenticator;
         $this->identifier = $identifier;
     }
-
 
     /**
      * Returns the Authenticator
@@ -60,7 +66,7 @@ class Guardian
     }
 
     /**
-     * Identifies a subject
+     * Identifies and authenticates a caller
      *
      * @param array $subject
      *
@@ -71,5 +77,43 @@ class Guardian
         $caller = $this->identifier->identify($subject);
 
         return $this->authenticator->authenticate($subject, $caller);
+    }
+
+    /**
+     * Checks if there is a caller logged in
+     *
+     * @return boolean
+     */
+    public function isLoggedIn()
+    {
+        return isset($this->currentCaller);
+    }
+
+    /**
+     * Logs a caller in
+     *
+     * TODO: Currently it only works pre request
+     *
+     * @param array $subject
+     *
+     * @return Caller
+     */
+    public function login(array $subject)
+    {
+        $caller = $this->identifier->identify($subject);
+
+        if ($this->authenticator->authenticate($subject, $caller)) {
+            return $this->currentCaller = $caller;
+        }
+    }
+
+    /**
+     * Returns the current caller
+     *
+     * @return Caller
+     */
+    public function getCurrentCaller()
+    {
+        return $this->currentCaller;
     }
 }
