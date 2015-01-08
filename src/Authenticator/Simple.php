@@ -14,6 +14,11 @@ namespace Indigo\Guardian\Authenticator;
 use BeatSwitch\Lock\Callers\Caller;
 use Assert\Assertion;
 
+/**
+ * Simple user authenticator
+ *
+ * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
+ */
 class Simple extends VerifierAware
 {
     /**

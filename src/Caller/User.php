@@ -21,6 +21,13 @@ use BeatSwitch\Lock\Callers\Caller;
 interface User extends Caller
 {
     /**
+     * Returns the username
+     *
+     * @return string
+     */
+    public function getUsername();
+
+    /**
      * Returns the hashed password
      *
      * @return string

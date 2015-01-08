@@ -6,7 +6,6 @@ use Indigo\Guardian\Verifier;
 use Indigo\Guardian\Caller\User;
 use BeatSwitch\Lock\Callers\Caller;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class SimpleSpec extends ObjectBehavior
 {
@@ -27,19 +26,19 @@ class SimpleSpec extends ObjectBehavior
 
     function it_authenticates_a_subject_against_a_caller(User $user, Verifier $verifier)
     {
-        $user->getPassword()->willReturn('password');
-        $verifier->verify('password', 'password')->willReturn(true);
+        $user->getPassword()->willReturn('hashed_password');
+        $verifier->verify('plain_password', 'hashed_password')->willReturn(true);
 
-        $this->authenticate(['password' => 'password'], $user)->shouldReturn(true);
+        $this->authenticate(['password' => 'plain_password'], $user)->shouldReturn(true);
     }
 
-    function it_throws_an_exception_when_password_not_passed(User $user)
+    function it_throws_an_exception_when_password_is_not_passed(User $user)
     {
         $this->shouldThrow('InvalidArgumentException')->duringAuthenticate([], $user);
     }
 
     function it_throws_an_exception_when_caller_is_not_a_user(Caller $caller)
     {
-        $this->shouldThrow('InvalidArgumentException')->duringAuthenticate(['password' => 'password'], $caller);
+        $this->shouldThrow('InvalidArgumentException')->duringAuthenticate(['password' => 'plain_password'], $caller);
     }
 }
