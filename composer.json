@@ -1,8 +1,8 @@
 {
     "name": "indigophp/guardian",
-    "description": "Simple authentication and authorization framework",
+    "description": "Simple and flexible authentication framework",
     "license": "MIT",
-    "keywords": ["authentication", "authorization"],
+    "keywords": ["authentication"],
     "homepage": "https://indigophp.com",
     "authors": [
         {
@@ -17,7 +17,11 @@
     },
     "require-dev": {
         "phpspec/phpspec": "~2.1.0",
-        "henrikbjorn/phpspec-code-coverage" : "~1.0.0"
+        "henrikbjorn/phpspec-code-coverage" : "~1.0.0",
+        "rhumsaa/array_column": "~1.1.0"
+    },
+    "suggest": {
+        "rhumsaa/array_column": "Used to make this package work on PHP 5.5 >",
     },
     "autoload": {
         "psr-4": {

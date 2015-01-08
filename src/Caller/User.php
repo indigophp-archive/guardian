@@ -9,24 +9,28 @@
  * file that was distributed with this source code.
  */
 
-namespace Indigo\Guardian;
+namespace Indigo\Guardian\Caller;
 
 use BeatSwitch\Lock\Callers\Caller;
 
 /**
- * Authenticates a subject
+ * User caller with some requirements
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
-interface Authenticator
+interface User extends Caller
 {
     /**
-     * Authenticates a subject
+     * Returns the username
      *
-     * @param array  $subject
-     * @param Caller $caller
-     *
-     * @return boolean
+     * @return string
      */
-    public function authenticate(array $subject, Caller $caller);
+    public function getUsername();
+
+    /**
+     * Returns the hashed password
+     *
+     * @return string
+     */
+    public function getPassword();
 }

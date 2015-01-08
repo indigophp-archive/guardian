@@ -11,39 +11,29 @@
 
 namespace Indigo\Guardian\Authenticator;
 
-use Indigo\Guardian\Verifier;
-use Indigo\Guardian\Exception\UserNotFound;
+use BeatSwitch\Lock\Callers\Caller;
 use Assert\Assertion;
 
+/**
+ * Simple user authenticator
+ *
+ * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
+ */
 class Simple extends VerifierAware
 {
     /**
-     * @var array
+     * @var string
      */
-    protected $users;
-
-    /**
-     * @param array    $users
-     * @param Verifier $verifier
-     */
-    public function __construct($users, Verifier $verifier)
-    {
-        $this->users = $users;
-
-        parent::__construct($verifier);
-    }
+    protected $caller = 'Indigo\Guardian\Caller\User';
 
     /**
      * {@inheritdoc}
      */
-    public function authenticate(array $subject)
+    public function authenticate(array $subject, Caller $caller)
     {
-        Assertion::choicesNotEmpty($subject, ['username', 'password']);
+        Assertion::choicesNotEmpty($subject, ['password']);
+        Assertion::isInstanceOf($caller, $this->caller, sprintf('The caller was expected to be an instance of "%s"', $this->caller));
 
-        if (!isset($this->users[$subject['username']])) {
-            throw new UserNotFound($subject['username']);
-        }
-
-        return $this->verifier->verify($subject['password'], $this->users[$subject['username']]);
+        return $this->verifier->verify($subject['password'], $caller->getPassword());
     }
 }
