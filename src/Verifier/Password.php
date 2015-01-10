@@ -40,6 +40,6 @@ class Password implements Verifier
             return password_verify($plain, $hashed);
         }
 
-        return hash($this->algo, $plain) === $hashed;
+        return hash_equals(hash($this->algo, $plain), $hashed);
     }
 }
