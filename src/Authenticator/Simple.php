@@ -19,7 +19,7 @@ use Assert\Assertion;
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
-class Simple extends VerifierAware
+class Simple extends HasherAware
 {
     /**
      * @var string
@@ -34,6 +34,6 @@ class Simple extends VerifierAware
         Assertion::choicesNotEmpty($subject, ['password']);
         Assertion::isInstanceOf($caller, $this->caller, sprintf('The caller was expected to be an instance of "%s"', $this->caller));
 
-        return $this->verifier->verify($subject['password'], $caller->getPassword());
+        return $this->hasher->verify($subject['password'], $caller->getPassword());
     }
 }

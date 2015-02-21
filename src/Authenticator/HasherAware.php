@@ -12,20 +12,20 @@
 namespace Indigo\Guardian\Authenticator;
 
 use Indigo\Guardian\Authenticator;
-use Indigo\Guardian\Verifier;
+use Indigo\Guardian\Hasher;
 
-abstract class VerifierAware implements Authenticator
+abstract class HasherAware implements Authenticator
 {
     /**
-     * @var Verifier
+     * @var Hasher
      */
-    protected $verifier;
+    protected $hasher;
 
     /**
-     * @param Verifier $verifier
+     * @param Hasher $hasher
      */
-    public function __construct(Verifier $verifier)
+    public function __construct(Hasher $hasher)
     {
-        $this->verifier = $verifier;
+        $this->hasher = $hasher;
     }
 }

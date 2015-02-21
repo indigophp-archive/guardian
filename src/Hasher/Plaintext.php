@@ -9,12 +9,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Indigo\Guardian\Verifier;
+namespace Indigo\Guardian\Hasher;
 
-use Indigo\Guardian\Verifier;
+use Indigo\Guardian\Hasher;
 
-class Plaintext implements Verifier
+class Plaintext implements Hasher
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function hash($plain)
+    {
+        return $plain;
+    }
+
     /**
      * {@inheritdoc}
      */

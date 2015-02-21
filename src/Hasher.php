@@ -12,12 +12,21 @@
 namespace Indigo\Guardian;
 
 /**
- * Verifies a password
+ * Hashes and verifies a password
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
-interface Verifier
+interface Hasher
 {
+    /**
+     * Hashes a plaintext password
+     *
+     * @param string $plain
+     *
+     * @return string
+     */
+    public function hash($plain);
+
     /**
      * Verifies that a plaintext password matches a hashed one
      *

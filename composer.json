@@ -11,16 +11,16 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "beatswitch/lock": "~0.1.0",
+        "php": ">=5.4",
+        "beatswitch/lock": "~0.1",
         "beberlei/assert": "~2.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.1.0",
-        "henrikbjorn/phpspec-code-coverage" : "~1.0.0",
-        "indigophp/hash-compat": "~1.0.0",
-        "ircmaxell/password-compat": "~1.0.0",
-        "rhumsaa/array_column": "~1.1.0"
+        "phpspec/phpspec": "~2.1",
+        "henrikbjorn/phpspec-code-coverage" : "~1.0",
+        "indigophp/hash-compat": "~1.0",
+        "ircmaxell/password-compat": "~1.0",
+        "rhumsaa/array_column": "~1.1"
     },
     "suggest": {
         "ircmaxell/password-compat": "Required on PHP 5.5 >",
@@ -31,8 +31,10 @@
             "Indigo\\Guardian\\": "src/"
         }
     },
-    "config": {
-        "bin-dir": "bin"
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
     },
     "prefer-stable": true,
     "minimum-stability": "dev"

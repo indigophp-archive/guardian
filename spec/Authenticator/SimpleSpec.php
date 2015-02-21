@@ -2,16 +2,16 @@
 
 namespace spec\Indigo\Guardian\Authenticator;
 
-use Indigo\Guardian\Verifier;
+use Indigo\Guardian\Hasher;
 use Indigo\Guardian\Caller\User;
 use BeatSwitch\Lock\Callers\Caller;
 use PhpSpec\ObjectBehavior;
 
 class SimpleSpec extends ObjectBehavior
 {
-    function let(Verifier $verifier)
+    function let(Hasher $hasher)
     {
-        $this->beConstructedWith($verifier);
+        $this->beConstructedWith($hasher);
     }
 
     function it_is_initializable()
@@ -24,10 +24,10 @@ class SimpleSpec extends ObjectBehavior
         $this->shouldImplement('Indigo\Guardian\Authenticator');
     }
 
-    function it_authenticates_a_subject_against_a_caller(User $user, Verifier $verifier)
+    function it_authenticates_a_subject_against_a_caller(User $user, Hasher $hasher)
     {
         $user->getPassword()->willReturn('hashed_password');
-        $verifier->verify('plain_password', 'hashed_password')->willReturn(true);
+        $hasher->verify('plain_password', 'hashed_password')->willReturn(true);
 
         $this->authenticate(['password' => 'plain_password'], $user)->shouldReturn(true);
     }
