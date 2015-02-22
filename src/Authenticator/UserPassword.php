@@ -12,7 +12,6 @@
 namespace Indigo\Guardian\Authenticator;
 
 use BeatSwitch\Lock\Callers\Caller;
-use Indigo\Guardian\Caller\User;
 use Assert\Assertion;
 
 /**
@@ -30,8 +29,8 @@ class UserPassword extends HasherAware
         Assertion::choicesNotEmpty($subject, ['password']);
         Assertion::isInstanceOf(
             $caller,
-            User::CLASS,
-            sprintf('The caller was expected to be an instance of "%s"', User::CLASS)
+            'Indigo\Guardian\Caller\User',
+            sprintf('The caller was expected to be an instance of "%s"', 'Indigo\Guardian\Caller\User')
         );
 
         return $this->hasher->verify($subject['password'], $caller->getPassword());
