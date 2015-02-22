@@ -16,11 +16,11 @@ use Indigo\Guardian\Caller\User\Simple as SimpleUser;
 use Assert\Assertion;
 
 /**
- * Simple user identifier
+ * Identifies callers from memory
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
-class Simple implements Identifier
+class InMemory implements Identifier
 {
     /**
      * @var array

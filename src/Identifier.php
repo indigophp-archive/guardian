@@ -12,8 +12,6 @@
 namespace Indigo\Guardian;
 
 /**
- * Identifies a caller
- *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
 interface Identifier

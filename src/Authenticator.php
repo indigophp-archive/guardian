@@ -14,14 +14,12 @@ namespace Indigo\Guardian;
 use BeatSwitch\Lock\Callers\Caller;
 
 /**
- * Authenticates a subject
- *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
 interface Authenticator
 {
     /**
-     * Authenticates a subject
+     * Authenticates a subject against a Caller
      *
      * @param array  $subject
      * @param Caller $caller

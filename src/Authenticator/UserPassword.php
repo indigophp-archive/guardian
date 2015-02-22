@@ -12,27 +12,27 @@
 namespace Indigo\Guardian\Authenticator;
 
 use BeatSwitch\Lock\Callers\Caller;
+use Indigo\Guardian\Caller\User;
 use Assert\Assertion;
 
 /**
- * Simple user authenticator
+ * Authenticate using a username-password pair
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
-class Simple extends HasherAware
+class UserPassword extends HasherAware
 {
-    /**
-     * @var string
-     */
-    protected $caller = 'Indigo\Guardian\Caller\User';
-
     /**
      * {@inheritdoc}
      */
     public function authenticate(array $subject, Caller $caller)
     {
         Assertion::choicesNotEmpty($subject, ['password']);
-        Assertion::isInstanceOf($caller, $this->caller, sprintf('The caller was expected to be an instance of "%s"', $this->caller));
+        Assertion::isInstanceOf(
+            $caller,
+            User::CLASS,
+            sprintf('The caller was expected to be an instance of "%s"', User::CLASS)
+        );
 
         return $this->hasher->verify($subject['password'], $caller->getPassword());
     }

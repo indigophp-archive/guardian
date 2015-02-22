@@ -4,7 +4,7 @@ namespace spec\Indigo\Guardian\Identifier;
 
 use PhpSpec\ObjectBehavior;
 
-class SimpleSpec extends ObjectBehavior
+class InMemorySpec extends ObjectBehavior
 {
     function let()
     {
@@ -18,7 +18,7 @@ class SimpleSpec extends ObjectBehavior
     }
     function it_is_initializable()
     {
-        $this->shouldHaveType('Indigo\Guardian\Identifier\Simple');
+        $this->shouldHaveType('Indigo\Guardian\Identifier\InMemory');
     }
 
     function it_is_an_identifier()

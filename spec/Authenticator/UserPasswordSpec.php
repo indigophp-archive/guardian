@@ -7,7 +7,7 @@ use Indigo\Guardian\Caller\User;
 use BeatSwitch\Lock\Callers\Caller;
 use PhpSpec\ObjectBehavior;
 
-class SimpleSpec extends ObjectBehavior
+class UserPasswordSpec extends ObjectBehavior
 {
     function let(Hasher $hasher)
     {
@@ -16,7 +16,7 @@ class SimpleSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Indigo\Guardian\Authenticator\Simple');
+        $this->shouldHaveType('Indigo\Guardian\Authenticator\UserPassword');
     }
 
     function it_is_an_authenticator()
