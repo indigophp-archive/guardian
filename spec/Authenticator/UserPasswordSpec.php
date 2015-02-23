@@ -4,7 +4,7 @@ namespace spec\Indigo\Guardian\Authenticator;
 
 use Indigo\Guardian\Hasher;
 use Indigo\Guardian\Caller\User;
-use BeatSwitch\Lock\Callers\Caller;
+use Indigo\Guardian\Caller;
 use PhpSpec\ObjectBehavior;
 
 class UserPasswordSpec extends ObjectBehavior

@@ -11,8 +11,6 @@
 
 namespace Indigo\Guardian;
 
-use BeatSwitch\Lock\Callers\Caller;
-
 /**
  * Main entry point
  *

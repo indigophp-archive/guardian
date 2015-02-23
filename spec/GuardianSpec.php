@@ -4,7 +4,7 @@ namespace spec\Indigo\Guardian;
 
 use Indigo\Guardian\Authenticator;
 use Indigo\Guardian\Identifier;
-use BeatSwitch\Lock\Callers\Caller;
+use Indigo\Guardian\Caller;
 use PhpSpec\ObjectBehavior;
 
 class GuardianSpec extends ObjectBehavior

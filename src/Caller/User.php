@@ -11,7 +11,7 @@
 
 namespace Indigo\Guardian\Caller;
 
-use BeatSwitch\Lock\Callers\Caller;
+use Indigo\Guardian\Caller;
 
 /**
  * User caller with some requirements

@@ -23,12 +23,12 @@ class SimpleSpec extends ObjectBehavior
     function it_is_a_caller()
     {
         $this->shouldImplement('Indigo\Guardian\Caller\User');
+        $this->shouldImplement('Indigo\Guardian\Caller');
     }
 
     function it_has_an_id()
     {
         $this->getId()->shouldReturn(1);
-        $this->getCallerId()->shouldReturn(1);
     }
 
     function it_has_a_username()
@@ -54,15 +54,5 @@ class SimpleSpec extends ObjectBehavior
     function it_throws_an_exception_when_no_property_is_requested()
     {
         $this->shouldThrow('BadMethodCallException')->duringBadMethodCall();
-    }
-
-    function it_has_a_type()
-    {
-        $this->getCallerType()->shouldReturn('user');
-    }
-
-    function it_does_not_have_roles()
-    {
-        $this->getCallerRoles()->shouldReturn([]);
     }
 }

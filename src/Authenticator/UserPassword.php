@@ -11,7 +11,7 @@
 
 namespace Indigo\Guardian\Authenticator;
 
-use BeatSwitch\Lock\Callers\Caller;
+use Indigo\Guardian\Caller;
 use Assert\Assertion;
 
 /**

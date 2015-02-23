@@ -12,17 +12,11 @@
 namespace Indigo\Guardian;
 
 /**
+ * An authenticateable entity
+ *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
-interface Authenticator
+interface Caller
 {
-    /**
-     * Authenticates a subject against a Caller
-     *
-     * @param array  $subject
-     * @param Caller $caller
-     *
-     * @return boolean
-     */
-    public function authenticate(array $subject, Caller $caller);
+
 }

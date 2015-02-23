@@ -69,30 +69,6 @@ class Simple implements User
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getCallerType()
-    {
-        return 'user';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCallerId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCallerRoles()
-    {
-        return [];
-    }
-
-    /**
      * Returns dynamic properties passed to the object
      *
      * Notice: property names should be camelCased
