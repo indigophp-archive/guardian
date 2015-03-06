@@ -34,11 +34,11 @@ use Indigo\Guardian\Service\Login;
 use Indigo\Guardian\Session\Native;
 
 $identifier = new InMemory([
-	1 => [
-		'username' => 'john.doe',
-		'password' => 'secret',
-		'name'     => 'John Doe',
-	],
+    1 => [
+        'username' => 'john.doe',
+        'password' => 'secret',
+        'name'     => 'John Doe',
+    ],
 ]);
 
 $authenticator = new Authenticator(new Plaintext);
@@ -47,9 +47,9 @@ $session = new Native;
 $service = new Login($identifier, $authenticator, $session);
 
 // returns true to indicate success
-$login->login([
-	'username' => 'john.doe',
-	'password' => 'secret',
+$service->login([
+    'username' => 'john.doe',
+    'password' => 'secret',
 ]);
 ```
 
@@ -79,6 +79,80 @@ $service->logout();
 ```
 
 By design every component is switchable which makes the library superflexible and easy to integrate into any frameworks.
+
+
+### API Authentication
+
+Since Guardian is an authentication library, you can easily use it to authenticate API requests without persistence. To achieve this, see the following simple authentication service:
+
+``` php
+use Indigo\Guardian\Identifier;
+use Indigo\Guardian\Authenticator;
+
+class ApiAuth
+{
+    /**
+     * @var Identifier
+     */
+    protected $identifier;
+
+    /**
+     * @var Authenticator
+     */
+    protected $authenticator;
+
+    /**
+     * @param LoginTokenIdentifier $identifier
+     * @param Authenticator        $authenticator
+     */
+    public function __construct(Identifier $identifier, Authenticator $authenticator)
+    {
+        $this->identifier = $identifier;
+        $this->authenticator = $authenticator;
+    }
+
+    /**
+     * Authenticates a subject in
+     *
+     * @param array $subject
+     */
+    public function authenticate(array $subject)
+    {
+        /** @var HasLoginToken */
+        $caller = $this->identifier->identify($subject);
+
+        return $this->authenticator->authenticate($subject, $caller);
+    }
+}
+```
+
+You can use this class to authenticate a request. (Optionally you could return the caller object instead of boolean value)
+
+``` php
+use Indigo\Guardian\Identifier\InMemory;
+use Indigo\Guardian\Authenticator\UserPassword;
+use Indigo\Guardian\Hasher\Plaintext;
+use Indigo\Guardian\Service\Login;
+use Indigo\Guardian\Session\Native;
+
+$identifier = new InMemory([
+    1 => [
+        'username' => 'john.doe',
+        'password' => 'secret',
+        'name'     => 'John Doe',
+    ],
+]);
+
+$authenticator = new Authenticator(new Plaintext);
+
+$service = new ApiAuth($identifier, $authenticator);
+
+// returns true to indicate success
+$service->authenticate([
+    'username' => 'john.doe',
+    'password' => 'secret',
+]);
+```
 
 
 ## Testing
