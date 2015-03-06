@@ -26,7 +26,7 @@ class Hash implements Hasher
      */
     public function __construct($algo)
     {
-        Assertion::Choice($algo, hash_algos());
+        Assertion::choice($algo, hash_algos());
 
         $this->algo = $algo;
     }

@@ -11,7 +11,6 @@
 
 namespace Indigo\Guardian\Identifier;
 
-use Indigo\Guardian\Identifier;
 use Indigo\Guardian\Caller\User\Simple as SimpleUser;
 use Assert\Assertion;
 
@@ -20,7 +19,7 @@ use Assert\Assertion;
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
-class InMemory implements Identifier
+class InMemory implements LoginTokenIdentifier
 {
     /**
      * @var array
@@ -58,5 +57,15 @@ class InMemory implements Identifier
         $id = array_search($subject['username'], $this->userKeys);
 
         return new SimpleUser($id, $this->users[$id]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function identifyByLoginToken($loginToken)
+    {
+        if (isset($this->users[$loginToken])) {
+            return new SimpleUser($loginToken, $this->users[$loginToken]);
+        }
     }
 }

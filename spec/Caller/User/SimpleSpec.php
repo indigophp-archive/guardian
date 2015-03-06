@@ -22,8 +22,14 @@ class SimpleSpec extends ObjectBehavior
 
     function it_is_a_caller()
     {
+        $this->shouldImplement('Indigo\Guardian\Caller\HasLoginToken');
         $this->shouldImplement('Indigo\Guardian\Caller\User');
         $this->shouldImplement('Indigo\Guardian\Caller');
+    }
+
+    public function it_has_a_login_token()
+    {
+        $this->getLoginToken()->shouldReturn(1);
     }
 
     function it_has_an_id()

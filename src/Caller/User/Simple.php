@@ -12,6 +12,7 @@
 namespace Indigo\Guardian\Caller\User;
 
 use Indigo\Guardian\Caller\User;
+use Indigo\Guardian\Caller\HasLoginToken;
 use Assert\Assertion;
 
 /**
@@ -19,7 +20,7 @@ use Assert\Assertion;
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
-class Simple implements User
+class Simple implements User, HasLoginToken
 {
     /**
      * @var string|integer
@@ -48,6 +49,14 @@ class Simple implements User
      * {@inheritdoc}
      */
     public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLoginToken()
     {
         return $this->id;
     }
