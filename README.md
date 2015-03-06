@@ -22,6 +22,64 @@ $ composer require indigophp/guardian
 
 ## Usage
 
+This library provides an easy way to authenticate any entity with OR without persisting and calling it "login".
+
+A simple login example:
+
+``` php
+use Indigo\Guardian\Identifier\InMemory;
+use Indigo\Guardian\Authenticator\UserPassword;
+use Indigo\Guardian\Hasher\Plaintext;
+use Indigo\Guardian\Service\Login;
+use Indigo\Guardian\Session\Native;
+
+$identifier = new InMemory([
+	1 => [
+		'username' => 'john.doe',
+		'password' => 'secret',
+		'name'     => 'John Doe',
+	],
+]);
+
+$authenticator = new Authenticator(new Plaintext);
+$session = new Native;
+
+$service = new Login($identifier, $authenticator, $session);
+
+// returns true to indicate success
+$login->login([
+	'username' => 'john.doe',
+	'password' => 'secret',
+]);
+```
+
+Later, when login succeeds, check for the current login:
+
+``` php
+use Indigo\Guardian\Service\Resume;
+
+$service = new Resume($identifier, $session);
+
+// returns true/false
+$service->check();
+
+// returns the current caller
+$caller = $service->getCurrentCaller();
+```
+
+And logout at the end:
+
+``` php
+use Indigo\Guardian\Service\Logout;
+
+$service = new Logout($session);
+
+// returns true/false
+$service->logout();
+```
+
+By design every component is switchable which makes the library superflexible and easy to integrate into any frameworks.
+
 
 ## Testing
 
