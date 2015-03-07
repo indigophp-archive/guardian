@@ -69,5 +69,7 @@ class InMemory implements LoginTokenIdentifier
         if (isset($this->users[$loginToken])) {
             return new SimpleUser($loginToken, $this->users[$loginToken]);
         }
+
+        throw new IdentificationFailed('User not found');
     }
 }

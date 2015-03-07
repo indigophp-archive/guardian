@@ -22,6 +22,8 @@ interface Identifier
      * @param array $subject
      *
      * @return Caller
+     *
+     * @throws Exception\IdentificationFailed If the caller cannot be found
      */
     public function identify(array $subject);
 }

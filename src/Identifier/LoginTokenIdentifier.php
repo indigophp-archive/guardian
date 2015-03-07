@@ -13,6 +13,7 @@ namespace Indigo\Guardian\Identifier;
 
 use Indigo\Guardian\Identifier;
 use Indigo\Guardian\Caller\HasLoginToken;
+use Indigo\Guardian\Exception\IdentificationFailed;
 
 /**
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
@@ -32,6 +33,8 @@ interface LoginTokenIdentifier extends Identifier
      * @param integer|string $loginToken
      *
      * @return HasLoginToken
+     *
+     * @throws IdentificationFailed If the caller cannot be found by login token
      */
     public function identifyByLoginToken($loginToken);
 }

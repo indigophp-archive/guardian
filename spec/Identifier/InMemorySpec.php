@@ -55,4 +55,9 @@ class InMemorySpec extends ObjectBehavior
         $caller->shouldImplement('Indigo\Guardian\Caller\HasLoginToken');
         $caller->shouldImplement('Indigo\Guardian\Caller\User');
     }
+
+    function it_throws_an_exception_when_cannot_identify_by_login_token()
+    {
+        $this->shouldThrow('Indigo\Guardian\Exception\IdentificationFailed')->duringIdentifyByLoginToken(0);
+    }
 }
