@@ -12,6 +12,7 @@
 namespace Indigo\Guardian\Identifier;
 
 use Indigo\Guardian\Caller\User\Simple as SimpleUser;
+use Indigo\Guardian\Exception\IdentificationFailed;
 use Assert\Assertion;
 
 /**
@@ -38,10 +39,10 @@ class InMemory implements LoginTokenIdentifier
      */
     public function __construct(array $users)
     {
-        Assertion::allChoicesNotEmpty($users, ['username', 'password']);
+        Assertion::allChoicesNotEmpty($users, ['id', 'username', 'password']);
 
-        $this->users = $users;
-        $this->userKeys = array_column($users, 'username');
+        $this->users = array_column($users, null, 'id');
+        $this->userKeys = array_column($users, 'username', 'id');
     }
 
     /**
@@ -51,8 +52,9 @@ class InMemory implements LoginTokenIdentifier
     {
         Assertion::notEmptyKey($subject, 'username');
 
-        // TODO: user not found exception
-        Assertion::inArray($subject['username'], $this->userKeys);
+        if (!in_array($subject['username'], $this->userKeys)) {
+            throw new IdentificationFailed('User not found');
+        }
 
         $id = array_search($subject['username'], $this->userKeys);
 

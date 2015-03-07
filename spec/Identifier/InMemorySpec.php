@@ -10,6 +10,7 @@ class InMemorySpec extends ObjectBehavior
     {
         $this->beConstructedWith([
             [
+                'id'       => 1,
                 'username' => 'john_doe',
                 'password' => 'hashed_password',
                 'name'     => 'John Doe',
@@ -43,12 +44,12 @@ class InMemorySpec extends ObjectBehavior
 
     function it_throws_an_exception_when_username_is_not_found()
     {
-        $this->shouldThrow('InvalidArgumentException')->duringIdentify(['username' => 'jane_doe']);
+        $this->shouldThrow('Indigo\Guardian\Exception\IdentificationFailed')->duringIdentify(['username' => 'jane_doe']);
     }
 
     function it_identifies_a_caller_by_login_token()
     {
-        $caller = $this->identifyByLoginToken(0);
+        $caller = $this->identifyByLoginToken(1);
 
         $caller->shouldHaveType('Indigo\Guardian\Caller\User\Simple');
         $caller->shouldImplement('Indigo\Guardian\Caller\HasLoginToken');
