@@ -10,11 +10,8 @@ use Prophecy\Argument;
 
 class ResumeSpec extends ObjectBehavior
 {
-    function let(Session $session, LoginTokenIdentifier $identifier, HasLoginToken $caller)
+    function let(Session $session, LoginTokenIdentifier $identifier)
     {
-        $session->getLoginToken()->willReturn(1);
-        $identifier->identifyByLoginToken(1)->willReturn($caller);
-
         $this->beConstructedWith($identifier, $session);
     }
 
@@ -23,13 +20,19 @@ class ResumeSpec extends ObjectBehavior
         $this->shouldHaveType('Indigo\Guardian\Service\Resume');
     }
 
-    function it_checks_out()
+    function it_checks_out(Session $session, LoginTokenIdentifier $identifier, HasLoginToken $caller)
     {
+        $session->getLoginToken()->willReturn(1);
+        $identifier->identifyByLoginToken(1)->willReturn($caller);
+
         $this->check()->shouldReturn(true);
     }
 
-    function it_has_a_caller(HasLoginToken $caller)
+    function it_has_a_caller(Session $session, LoginTokenIdentifier $identifier, HasLoginToken $caller)
     {
+        $session->getLoginToken()->willReturn(1);
+        $identifier->identifyByLoginToken(1)->willReturn($caller);
+
         $this->getCurrentCaller()->shouldReturn($caller);
     }
 }

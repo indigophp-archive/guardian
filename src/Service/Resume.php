@@ -43,19 +43,20 @@ class Resume
     {
         $this->identifier = $identifier;
         $this->session = $session;
-
-        $loginToken = $session->getLoginToken();
-        $this->currentCaller = $identifier->identifyByLoginToken($loginToken);
     }
 
     /**
      * Checks whether a user is logged in
      *
+     * TODO: add further checks
+     *
      * @return boolean
      */
     public function check()
     {
-        return isset($this->currentCaller);
+        $currentCaller = $this->getCurrentCaller();
+
+        return isset($currentCaller);
     }
 
     /**
@@ -65,6 +66,18 @@ class Resume
      */
     public function getCurrentCaller()
     {
+        if (is_null($this->currentCaller)) {
+            $loginToken = $this->session->getLoginToken();
+
+            try {
+                $this->currentCaller = $this->identifier->identifyByLoginToken($loginToken);
+            } catch (IdentificationFailed $e) {
+                // we couldn't identify the caller, so we destroy the session
+                // TODO: think about this
+                $this->session->destroy();
+            }
+        }
+
         return $this->currentCaller;
     }
 }
