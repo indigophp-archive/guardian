@@ -12,6 +12,7 @@
 namespace Indigo\Guardian\Service;
 
 use Indigo\Guardian\Caller\HasLoginToken;
+use Indigo\Guardian\Exception\IdentificationFailed;
 use Indigo\Guardian\Identifier\LoginTokenIdentifier;
 use Indigo\Guardian\Session;
 

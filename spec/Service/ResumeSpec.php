@@ -28,6 +28,15 @@ class ResumeSpec extends ObjectBehavior
         $this->check()->shouldReturn(true);
     }
 
+    function it_does_not_check_out_if_caller_not_found(Session $session, LoginTokenIdentifier $identifier, HasLoginToken $caller)
+    {
+        $session->getLoginToken()->willReturn(1);
+        $session->destroy()->shouldBeCalled();
+        $identifier->identifyByLoginToken(1)->willThrow('Indigo\Guardian\Exception\IdentificationFailed');
+
+        $this->check()->shouldReturn(false);
+    }
+
     function it_has_a_caller(Session $session, LoginTokenIdentifier $identifier, HasLoginToken $caller)
     {
         $session->getLoginToken()->willReturn(1);
