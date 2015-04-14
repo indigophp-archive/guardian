@@ -12,6 +12,11 @@ class NativeSpec extends ObjectBehavior
         $this->shouldHaveType('Indigo\Guardian\Session\Native');
     }
 
+    function it_is_a_session()
+    {
+        $this->shouldHaveType('Indigo\Guardian\Session');
+    }
+
     function it_returns_a_login_token()
     {
         $this->setLoginToken('token');
