@@ -7,7 +7,6 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/indigophp/guardian.svg?style=flat-square)](https://scrutinizer-ci.com/g/indigophp/guardian)
 [![HHVM Status](https://img.shields.io/hhvm/indigophp/guardian.svg?style=flat-square)](http://hhvm.h4cc.de/package/indigophp/guardian)
 [![Total Downloads](https://img.shields.io/packagist/dt/indigophp/guardian.svg?style=flat-square)](https://packagist.org/packages/indigophp/guardian)
-[![Dependency Status](https://img.shields.io/versioneye/d/php/indigophp:guardian.svg?style=flat-square)](https://www.versioneye.com/php/indigophp:guardian)
 
 **Simple and flexible authentication framework.**
 
@@ -30,7 +29,7 @@ A simple login example:
 use Indigo\Guardian\Identifier\InMemory;
 use Indigo\Guardian\Authenticator\UserPassword;
 use Indigo\Guardian\Hasher\Plaintext;
-use Indigo\Guardian\Service\Login;
+use Indigo\Guardian\SessionAuth;
 use Indigo\Guardian\Session\Native;
 
 $identifier = new InMemory([
@@ -41,13 +40,13 @@ $identifier = new InMemory([
     ],
 ]);
 
-$authenticator = new Authenticator(new Plaintext);
+$authenticator = new UserPassword(new Plaintext);
 $session = new Native;
 
-$service = new Login($identifier, $authenticator, $session);
+$auth = new SessionAuth($identifier, $authenticator, $session);
 
 // returns true to indicate success
-$service->login([
+$auth->login([
     'username' => 'john.doe',
     'password' => 'secret',
 ]);
@@ -56,84 +55,31 @@ $service->login([
 Later, when login succeeds, check for the current login:
 
 ``` php
-use Indigo\Guardian\Service\Resume;
-
-$service = new Resume($identifier, $session);
-
 // returns true/false
-$service->check();
+$auth->check();
 
 // returns the current caller
-$caller = $service->getCurrentCaller();
+$caller = $auth->getCurrentCaller();
 ```
 
 And logout at the end:
 
 ``` php
-use Indigo\Guardian\Service\Logout;
-
-$service = new Logout($session);
-
 // returns true/false
-$service->logout();
+$auth->logout();
 ```
-
-By design every component is switchable which makes the library superflexible and easy to integrate into any frameworks.
 
 
 ### API Authentication
 
 Since Guardian is an authentication library, you can easily use it to authenticate API requests without persistence. To achieve this, see the following simple authentication service:
 
-``` php
-use Indigo\Guardian\Identifier;
-use Indigo\Guardian\Authenticator;
-
-class ApiAuth
-{
-    /**
-     * @var Identifier
-     */
-    protected $identifier;
-
-    /**
-     * @var Authenticator
-     */
-    protected $authenticator;
-
-    /**
-     * @param LoginTokenIdentifier $identifier
-     * @param Authenticator        $authenticator
-     */
-    public function __construct(Identifier $identifier, Authenticator $authenticator)
-    {
-        $this->identifier = $identifier;
-        $this->authenticator = $authenticator;
-    }
-
-    /**
-     * Authenticates a subject in
-     *
-     * @param array $subject
-     */
-    public function authenticate(array $subject)
-    {
-        /** @var HasLoginToken */
-        $caller = $this->identifier->identify($subject);
-
-        return $this->authenticator->authenticate($subject, $caller);
-    }
-}
-```
-
-You can use this class to authenticate a request. (Optionally you could return the caller object instead of boolean value)
 
 ``` php
 use Indigo\Guardian\Identifier\InMemory;
 use Indigo\Guardian\Authenticator\UserPassword;
 use Indigo\Guardian\Hasher\Plaintext;
-use Indigo\Guardian\Service\Login;
-use Indigo\Guardian\Session\Native;
+use Indigo\Guardian\RequestAuth;
 
 $identifier = new InMemory([
     1 => [
@@ -143,15 +89,20 @@ $identifier = new InMemory([
     ],
 ]);
 
-$authenticator = new Authenticator(new Plaintext);
+$authenticator = new UserPassword(new Plaintext);
 
-$service = new ApiAuth($identifier, $authenticator);
+$auth = new RequestAuth($identifier, $authenticator);
 
-// returns true to indicate success
-$service->authenticate([
+$subject = [
     'username' => 'john.doe',
     'password' => 'secret',
-]);
+];
+
+// returns true to indicate success
+$auth->authenticate($subject);
+
+// returns the caller object if identify succeeds
+$caller = $auth->authenticateAndReturn($subject);
 ```
 
 
